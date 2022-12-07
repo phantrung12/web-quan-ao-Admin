@@ -14,6 +14,8 @@ import NewPage from "./pages/NewPage";
 import UserPage from "./pages/UserPage";
 import UserChat from "./pages/UserChat";
 import ImportExport from "./pages/ImportExport";
+import ProductsList from "./pages/Products/products";
+import "antd/dist/antd.min.css";
 
 function App() {
   const auth = useSelector((state) => state.auth);
@@ -35,7 +37,7 @@ function App() {
           <Home />
         </PrivateRoute>
         <PrivateRoute exact path="/products">
-          <Products />
+          <ProductsList />
         </PrivateRoute>
         <PrivateRoute exact path="/page">
           <NewPage />
