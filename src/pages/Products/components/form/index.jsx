@@ -9,7 +9,7 @@ import {
   TreeSelect,
   Upload,
 } from "antd";
-import React, { memo } from "react";
+import React, { memo, useEffect, useState } from "react";
 import { Controller, useFormContext } from "react-hook-form";
 import { useSelector } from "react-redux";
 import { productColorList, productSizeList } from "../../../../utils/contants";
@@ -24,8 +24,9 @@ import {
 import app from "../../../../firebase";
 
 const ProductForm = () => {
-  const { control, watch } = useFormContext();
+  const { control, watch, setValue } = useFormContext();
   const category = useSelector((state) => state.category);
+  const [productPictures, setProductPictures] = useState([]);
 
   const watchIsSale = watch("isSale");
   const watchImage = watch("image");
@@ -37,6 +38,10 @@ const ProductForm = () => {
       children: item?.children ? formatCategory(item?.children) : [],
     }));
   };
+
+  useEffect(() => {
+    setValue("productPictures", productPictures);
+  }, [productPictures]);
 
   const uploadButton = (
     <div>
@@ -66,9 +71,10 @@ const ProductForm = () => {
           console.log(error);
         },
         async () => {
-          await getDownloadURL(uploadTask.snapshot.ref).then(
-            (downloadURL) => {}
-          );
+          await getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+            setProductPictures((prev) => [...prev, { img: downloadURL }]);
+            setValue("productPictures", productPictures);
+          });
         }
       );
     });
