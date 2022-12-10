@@ -1,4 +1,5 @@
 import {
+  Button,
   Form,
   Input,
   InputNumber,
@@ -13,7 +14,14 @@ import { Controller, useFormContext } from "react-hook-form";
 import { useSelector } from "react-redux";
 import { productColorList, productSizeList } from "../../../../utils/contants";
 import FormItem from "../../../component/FormItem";
-import { PlusOutlined } from "@ant-design/icons";
+import { PlusOutlined, UploadOutlined } from "@ant-design/icons";
+import {
+  getDownloadURL,
+  getStorage,
+  ref,
+  uploadBytesResumable,
+} from "firebase/storage";
+import app from "../../../../firebase";
 
 const ProductForm = () => {
   const { control, watch } = useFormContext();
@@ -38,10 +46,36 @@ const ProductForm = () => {
           marginTop: 8,
         }}
       >
-        Upload
+        Add image
       </div>
     </div>
   );
+
+  const uploadImage = () => {
+    const promises = [];
+    watchImage.map(async (img) => {
+      const fileName = new Date().getTime() + img.name;
+      const storage = getStorage(app);
+      const storageRef = ref(storage, fileName);
+      const uploadTask = uploadBytesResumable(storageRef, img);
+      promises.push(uploadTask);
+      uploadTask.on(
+        "state_changed",
+        (snapshot) => {},
+        (error) => {
+          console.log(error);
+        },
+        async () => {
+          await getDownloadURL(uploadTask.snapshot.ref).then(
+            (downloadURL) => {}
+          );
+        }
+      );
+    });
+    Promise.all(promises)
+      .then(() => {})
+      .catch((err) => console.log(err));
+  };
 
   return (
     <div>
@@ -69,6 +103,15 @@ const ProductForm = () => {
             >
               {watchImage?.length >= 3 ? null : uploadButton}
             </Upload>
+            {watchImage?.length >= 1 && (
+              <Button
+                icon={<UploadOutlined />}
+                style={{ display: "flex", alignItems: "center" }}
+                onClick={() => uploadImage()}
+              >
+                Upload
+              </Button>
+            )}
           </FormItem>
         )}
       />
@@ -91,6 +134,24 @@ const ProductForm = () => {
         render={({ field, fieldState }) => (
           <FormItem
             title="Giá"
+            error={fieldState.error}
+            errorText={fieldState.error?.message}
+          >
+            <InputNumber
+              style={{ width: "100%" }}
+              {...field}
+              value={field.value || ""}
+              maxLength={255}
+            />
+          </FormItem>
+        )}
+      />
+      <Controller
+        name="quantity"
+        control={control}
+        render={({ field, fieldState }) => (
+          <FormItem
+            title="Số lượng"
             error={fieldState.error}
             errorText={fieldState.error?.message}
           >
