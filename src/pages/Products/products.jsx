@@ -199,7 +199,7 @@ const ProductsList = () => {
         <Pagination
           className="mt-4"
           total={productsPageable?.filteredProductsCount}
-          size={productsPageable.resultPerPage}
+          pageSize={productsPageable.resultPerPage}
           onChange={(e) => setFilter((pre) => ({ ...pre, page: e }))}
           current={filter?.page}
         />
