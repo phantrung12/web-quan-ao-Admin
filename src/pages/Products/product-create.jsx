@@ -8,9 +8,10 @@ import ProductForm from "./components/form/index";
 const ProductCreate = ({ open, onClose }) => {
   const [loading, setLoading] = useState(false);
   const methods = useForm();
-  const { handleSubmit, reset } = methods;
+  const { handleSubmit, reset, watch } = methods;
 
   const dispatch = useDispatch();
+  console.log(watch("productPictures"));
 
   const category = useSelector((state) => state.category);
 
@@ -26,10 +27,7 @@ const ProductCreate = ({ open, onClose }) => {
   };
 
   const onSubmit = async (data) => {
-    const imageArr = data.image
-      ? data.image.map((item) => item.originFileObj)
-      : [];
-    await dispatch(
+    dispatch(
       addProduct({
         ...data,
         category: createCategoriesArray(data.category),
