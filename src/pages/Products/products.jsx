@@ -32,7 +32,6 @@ const ProductsList = () => {
   const [addModal, setAddModal] = useState(false);
   const [filter, setFilter] = useState({ page: 1 });
   const [idProduct, setIdProduct] = useState(null);
-  console.log(idProduct);
 
   const category = useSelector((state) => state.category);
   const product = useSelector((state) => state.product);
@@ -199,7 +198,7 @@ const ProductsList = () => {
         <Pagination
           className="mt-4"
           total={productsPageable?.filteredProductsCount}
-          pageSize={productsPageable.resultPerPage}
+          // pageSize={productsPageable.resultPerPage}
           onChange={(e) => setFilter((pre) => ({ ...pre, page: e }))}
           current={filter?.page}
         />

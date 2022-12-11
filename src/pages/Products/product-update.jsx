@@ -18,7 +18,7 @@ const ProductUpdate = ({ id, open, onClose }) => {
 
   useEffect(() => {
     reset(productDetail);
-  }, productDetail);
+  }, [productDetail]);
 
   useEffect(() => {
     if (!id) {
@@ -38,11 +38,14 @@ const ProductUpdate = ({ id, open, onClose }) => {
     return arr;
   };
 
-  const onSubmit = async (data) => {
+  const onSubmit = (data) => {
     dispatch(
       updateProduct({
         ...data,
-        category: createCategoriesArray(data.category),
+        category:
+          data.category.length > 1
+            ? data.category
+            : createCategoriesArray(data.category),
       })
     );
   };
