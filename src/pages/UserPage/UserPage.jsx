@@ -71,7 +71,7 @@ const UserList = () => {
         <Layout sidebar>
             <Container className="py-3">
                 <Space style={{ justifyContent: 'space-between', width: '100%' }}>
-                    <Typography.Title level={3}>Danh sách sản phẩm</Typography.Title>
+                    <Typography.Title level={3}>Danh sách tài khoản</Typography.Title>
                     <Space>
                         <Button
                             style={{ display: 'flex', alignItems: 'center' }}
