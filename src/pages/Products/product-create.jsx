@@ -33,6 +33,7 @@ const ProductCreate = ({ open, onClose }) => {
         category: createCategoriesArray(data.category),
       })
     );
+    onClose();
   };
 
   return (

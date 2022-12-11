@@ -48,6 +48,7 @@ const ProductUpdate = ({ id, open, onClose }) => {
             : createCategoriesArray(data.category),
       })
     );
+    onClose();
   };
 
   return (
