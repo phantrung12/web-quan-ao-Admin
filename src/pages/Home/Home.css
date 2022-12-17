@@ -13,6 +13,7 @@
 .order-amount {
     padding: 2%;
     margin: 1%;
+    max-width: 48% !important;
     border: 2px solid rgb(177, 174, 174);
     border-radius: 2%;
     background-color: rgb(255, 255, 255);

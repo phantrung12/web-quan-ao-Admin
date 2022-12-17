@@ -45,7 +45,7 @@ const OrderStatusChart = () => {
   return (
     <div>
       <Typography.Title level={3}>
-        Thống kê thanh toán thanh toán
+        Thống kê thanh toán
       </Typography.Title>
       {dataChart.length > 0 ? <Pie {...config} /> : <p>Loading.....</p>}
     </div>
