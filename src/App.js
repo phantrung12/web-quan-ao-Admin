@@ -2,12 +2,9 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Switch, Route } from 'react-router-dom';
 import PrivateRoute from './components/PrivateRoute';
-
-import Signin from './pages/Signin';
 import Signup from './pages/Signup';
 import { isUserLoggedIn } from './redux/actions/auth.actions';
 import { getInitialData } from './redux/actions/initialData.actions';
-import NewPage from './pages/NewPage';
 
 import UserChat from './pages/UserChat';
 import ImportExport from './pages/ImportExport';
@@ -17,6 +14,8 @@ import Home from './pages/Home/Home';
 import CategoryList from './pages/Category/Category';
 import UserList from './pages/UserPage/UserPage';
 import Orders from './pages/Order/Order';
+import Login from './pages/Login/Login';
+import ProductDetail from './pages/Products/product-detail';
 
 function App() {
     const auth = useSelector((state) => state.auth);
@@ -40,9 +39,7 @@ function App() {
                 <PrivateRoute exact path="/products">
                     <ProductsList />
                 </PrivateRoute>
-                <PrivateRoute exact path="/page">
-                    <NewPage />
-                </PrivateRoute>
+
                 <PrivateRoute exact path="/orders">
                     <Orders />
                 </PrivateRoute>
@@ -52,17 +49,14 @@ function App() {
                 <PrivateRoute exact path="/chats">
                     <UserChat />
                 </PrivateRoute>
-                <Route path="/signin">
-                    <Signin />
-                </Route>
-                <Route path="/signup">
-                    <Signup />
-                </Route>
-                <Route path="/category">
+                <PrivateRoute path="/category">
                     <CategoryList />
-                </Route>
-                <Route path="/users">
+                </PrivateRoute>
+                <PrivateRoute path="/users">
                     <UserList />
+                </PrivateRoute>
+                <Route path="/signin">
+                    <Login />
                 </Route>
             </Switch>
         </div>

@@ -1,9 +1,35 @@
+.home {
+    background-color: rgb(93, 174, 245);
+}
 .sidebar {
-  position: fixed;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  background-color: #dddddd;
-  padding-top: 60px;
-  box-shadow: inset 0 0 2px rgb(17, 17, 17);
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    background-color: #dddddd;
+    padding-top: 60px;
+    box-shadow: inset 0 0 2px rgb(17, 17, 17);
+}
+.order-amount {
+    padding: 2%;
+    margin: 1%;
+    border: 2px solid rgb(177, 174, 174);
+    border-radius: 2%;
+    background-color: rgb(255, 255, 255);
+}
+.order-status {
+    padding: 2%;
+    margin: 1%;
+    max-width: 48% !important;
+    border: 2px solid rgb(177, 174, 174);
+    border-radius: 2%;
+    background-color: rgb(255, 255, 255);
+}
+.top-sold {
+    padding: 2%;
+    margin: 1%;
+    max-width: 98% !important;
+    background-color: beige;
+    border: 2px solid rgb(177, 174, 174);
+    border-radius: 2%;
 }

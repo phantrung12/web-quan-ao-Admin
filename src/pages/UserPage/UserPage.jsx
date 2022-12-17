@@ -5,18 +5,19 @@ import Layout from '../../components/Layout';
 import { useDispatch, useSelector } from 'react-redux';
 import { DeleteOutlined, EditOutlined, EyeOutlined, PlusOutlined } from '@ant-design/icons';
 import { getAllUser } from '../../redux/actions/user.actions';
+import UserDelete from './User-delete';
 // import ProductCreate from './product-create';
 
 const UserList = () => {
-    const [addModal, setAddModal] = useState(false);
-
+    const [idDel, setIdDel] = useState(null);
+    const [deleteModal, setDeleteModal] = useState(false);
     const users = useSelector((state) => state.user.userList);
     console.log(users);
     const dispatch = useDispatch();
 
     useEffect(() => {
         dispatch(getAllUser());
-    }, [dispatch]);
+    }, [dispatch, deleteModal]);
     const columns = [
         {
             title: 'ID',
@@ -52,14 +53,15 @@ const UserList = () => {
             render: (value, record) => {
                 return (
                     <Space size="middle">
-                        <Tooltip title="Xem">
-                            <Button type="primary" icon={<EyeOutlined />}></Button>
-                        </Tooltip>
-                        <Tooltip title="Sửa">
-                            <Button type="primary" icon={<EditOutlined />}></Button>
-                        </Tooltip>
                         <Tooltip title="Xóa">
-                            <Button danger icon={<DeleteOutlined />}></Button>
+                            <Button
+                                danger
+                                icon={<DeleteOutlined />}
+                                onClick={() => {
+                                    setIdDel(record._id);
+                                    setDeleteModal(true);
+                                }}
+                            ></Button>
                         </Tooltip>
                     </Space>
                 );
@@ -72,16 +74,6 @@ const UserList = () => {
             <Container className="py-3">
                 <Space style={{ justifyContent: 'space-between', width: '100%' }}>
                     <Typography.Title level={3}>Danh sách tài khoản</Typography.Title>
-                    <Space>
-                        <Button
-                            style={{ display: 'flex', alignItems: 'center' }}
-                            type="primary"
-                            icon={<PlusOutlined />}
-                            onClick={() => setAddModal(true)}
-                        >
-                            Thêm mới
-                        </Button>
-                    </Space>
                 </Space>
                 <Divider />
                 <Table
@@ -96,7 +88,15 @@ const UserList = () => {
                     }}
                 />
             </Container>
-            {/* {addModal && <ProductCreate open={addModal} onClose={() => setAddModal(false)} />} */}
+            {deleteModal && (
+                <UserDelete
+                    id={idDel}
+                    open={deleteModal}
+                    onClose={() => {
+                        setDeleteModal(false);
+                    }}
+                />
+            )}
         </Layout>
     );
 };

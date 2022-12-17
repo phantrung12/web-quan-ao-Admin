@@ -3,17 +3,28 @@ import React, { useEffect, useState } from 'react';
 import { Container } from 'react-bootstrap';
 import Layout from '../../components/Layout';
 import { useDispatch, useSelector } from 'react-redux';
-import { DeleteOutlined, EditOutlined, EyeOutlined, PlusOutlined } from '@ant-design/icons';
+import {
+    DeleteOutlined,
+    EditOutlined,
+    EyeOutlined,
+    PlusOutlined,
+    VerticalAlignMiddleOutlined,
+} from '@ant-design/icons';
 import ProductCreate from './product-create';
 import { Controller, useForm } from 'react-hook-form';
 import { searchProduct } from '../../redux/actions/product.actions';
 import { get } from 'lodash';
 import ProductUpdate from './product-update';
 import ProductDelete from './product-delete';
+import ProductImexport from './product-imexport';
+import ProductDetail from './product-detail';
 
 const ProductsList = () => {
     const { handleSubmit, watch, control, reset } = useForm();
     const [addModal, setAddModal] = useState(false);
+    const [updateModal, setUpdateModal] = useState(false);
+    const [detailModal, setDetailModal] = useState(false);
+    const [imexportModal, setImexportModal] = useState(false);
     const [pageSize, setPageSize] = useState(1);
     const [deleteModal, setDeleteModal] = useState(false);
     const [filter, setFilter] = useState({ page: 1 });
@@ -29,6 +40,7 @@ const ProductsList = () => {
     const submit = (data) => {
         setFilter({ ...data, page: 1 });
     };
+    console.log(filter, 'f');
 
     useEffect(() => {
         dispatch(searchProduct(filter));
@@ -93,13 +105,33 @@ const ProductsList = () => {
                 return (
                     <Space size="middle">
                         <Tooltip title="Xem">
-                            <Button type="primary" icon={<EyeOutlined />}></Button>
+                            <Button
+                                type="primary"
+                                icon={<EyeOutlined />}
+                                onClick={() => {
+                                    setIdProduct(record._id);
+                                    setDetailModal(true);
+                                }}
+                            ></Button>
                         </Tooltip>
                         <Tooltip title="Sửa">
                             <Button
                                 type="primary"
                                 icon={<EditOutlined />}
-                                onClick={() => setIdProduct(record._id)}
+                                onClick={() => {
+                                    setIdProduct(record._id);
+                                    setUpdateModal(true);
+                                }}
+                            ></Button>
+                        </Tooltip>
+                        <Tooltip title="Nhập/Xuất">
+                            <Button
+                                type="primary"
+                                icon={<VerticalAlignMiddleOutlined />}
+                                onClick={() => {
+                                    setIdProduct(record._id);
+                                    setImexportModal(true);
+                                }}
                             ></Button>
                         </Tooltip>
                         <Tooltip title="Xóa">
@@ -209,12 +241,32 @@ const ProductsList = () => {
                     }}
                 />
             )}
-            {idProduct && (
+            {detailModal && (
+                <ProductDetail
+                    id={idProduct}
+                    open={idProduct}
+                    onClose={() => {
+                        setDetailModal(false);
+                        setFilter({ page: 0 });
+                    }}
+                />
+            )}
+            {updateModal && (
                 <ProductUpdate
                     id={idProduct}
                     open={idProduct}
                     onClose={() => {
-                        setAddModal(false);
+                        setUpdateModal(false);
+                        setFilter({ page: 0 });
+                    }}
+                />
+            )}
+            {imexportModal && (
+                <ProductImexport
+                    id={idProduct}
+                    open={idProduct}
+                    onClose={() => {
+                        setImexportModal(false);
                         setFilter({ page: 0 });
                     }}
                 />
